@@ -1,0 +1,24 @@
+name: "Build Flipper App"
+on: [push, pull_request]
+
+jobs:
+  ufbt-build:
+    runs-on: ubuntu-latest
+    name: 'Build for Custom Firmware'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build with ufbt
+        uses: flipperdevices/flipperzero-ufbt-action@v0.1.4
+        id: build-app
+        with:
+          # This URL points to Momentum Firmware, which allows 'strtok' and 'strcat'
+          sdk-index-url: https://up.momentum-fw.dev/firmware/directory.json
+          sdk-channel: release
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: MyFlipperApp
+          path: ${{ steps.build-app.outputs.fap-artifacts }}
