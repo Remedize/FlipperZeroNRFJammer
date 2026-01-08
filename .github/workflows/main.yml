@@ -15,7 +15,7 @@ jobs:
         with:
           # This URL points to Momentum Firmware, which allows 'strtok' and 'strcat'
           sdk-index-url: https://up.momentum-fw.dev/firmware/directory.json
-          sdk-channel: release
+          sdk-build: 0.86.1
 
       - name: Upload binary
         uses: actions/upload-artifact@v4
