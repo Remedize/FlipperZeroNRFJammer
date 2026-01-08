@@ -1,0 +1,32 @@
+name: "Build Unleashed App"
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build_app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build with fbt (Unleashed)
+        uses: dark-clue/flipper-zero-build-action@v1.0.1
+        with:
+          # This pulls the latest Unleashed dev build to compile against
+          flipper-firmware-repo: "https://github.com/DarkFlippers/unleashed-firmware.git"
+          flipper-firmware-branch: "dev"
+          # Points to the folder where your fam file and code live
+          app-dir: "." 
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: unleashed-app-binaries
+          path: dist/*.fap
