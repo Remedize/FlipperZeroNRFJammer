@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
   ufbt-build:
     runs-on: ubuntu-latest
-    name: 'Build for Custom Firmware'
+    name: 'Build for Latest Unleashed'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -13,9 +13,10 @@ jobs:
         uses: flipperdevices/flipperzero-ufbt-action@v0.1.4
         id: build-app
         with:
-          # This URL points to Momentum Firmware, which allows 'strtok' and 'strcat'
+          # This URL unlocks the "banned" functions (strtok)
           sdk-index-url: https://up.momentum-fw.dev/firmware/directory.json
-          sdk-branch: 0.86.1
+          # This targets the NEW firmware that has the missing 'SerialHandle' parts
+          sdk-channel: release
 
       - name: Upload binary
         uses: actions/upload-artifact@v4
